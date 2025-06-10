@@ -23,25 +23,25 @@ The backend is designed as an event-driven, asynchronous pipeline on AWS. This a
 ```mermaid
 graph TD
     subgraph "Client (iOS App)"
-        A[iOS App UI / UX]
-        A -- API Request (HTTPS/JSON) --> B[Amazon API Gateway]
+        A["iOS App UI / UX"]
+        A -- "API Request (HTTPS/JSON)" --> B["Amazon API Gateway"]
     end
 
     subgraph "AWS Backend Services"
-        B -- Triggers --> C[AWS Lambda - API Handler]
-        C -- Starts Workflow --> E[AWS Step Functions - Orchestrator]
+        B -- "Triggers" --> C["AWS Lambda - API Handler"]
+        C -- "Starts Workflow" --> E["AWS Step Functions - Orchestrator"]
 
-        E -- "1. Download" --> F[Lambda - Audio Downloader]
-        F -- Audio File --> G[S3 - Audio Bucket]
+        E -- "1. Download" --> F["Lambda - Audio Downloader"]
+        F -- "Audio File" --> G["S3 - Audio Bucket"]
         
         E -- "2. Transcribe" --> H["Batch/Fargate (Whisper)"]
-        H -- Reads Audio --> G
-        H -- Transcript --> I[S3 - Transcript Bucket]
+        H -- "Reads Audio" --> G
+        H -- "Transcript" --> I["S3 - Transcript Bucket"]
 
-        E -- "3. Analyze" --> J[Lambda - NLP Analyzer (Core Logic Shown)]
-        J -- Reads Transcript --> I
-        J -- Invokes LLM (LangChain) --> K[Amazon Bedrock]
-        J -- Saves Results --> M[DynamoDB - Structured Insights]
+        E -- "3. Analyze" --> J["Lambda - NLP Analyzer (Core Logic Shown)"]
+        J -- "Reads Transcript" --> I
+        J -- "Invokes LLM (LangChain)" --> K["Amazon Bedrock"]
+        J -- "Saves Results" --> M["DynamoDB - Structured Insights"]
     end
 ```
 
